@@ -306,7 +306,7 @@ class s(BaseHTTPRequestHandler):
         rot2 = _map(float(arr[4]), -1.00, 1.00, 0, 180)
         print(lin1)
         #ser.write('p %d %d\n' % (int((arr[0]-1)*4+0), lin1))
-        ser.write('p %d %d\n' % (0, lin1))
+        ser.write(('p %d %d\n' % (0, lin1)).encode())
         #ser.write('p %d %d\n' % (((arr[0]-1)*4+1), rot1))
         #ser.write('p %d %d\n' % (((arr[0]-1)*4+2), lin2))
         #ser.write('p %d %d\n' % (((arr[0]-1)*4+3), rot2))
