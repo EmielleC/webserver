@@ -305,11 +305,11 @@ class s(BaseHTTPRequestHandler):
         lin2 = _map(float(arr[3]), -1.00, 1.00, 0, 180)
         rot2 = _map(float(arr[4]), -1.00, 1.00, 0, 180)
         print(lin1)
-        #ser.write('p %d %d\n' % (int((arr[0]-1)*4+0), lin1))
-        ser.write(('p %d %d\n' % (4, lin1)).encode())
-        #ser.write('p %d %d\n' % (((arr[0]-1)*4+1), rot1))
-        #ser.write('p %d %d\n' % (((arr[0]-1)*4+2), lin2))
-        #ser.write('p %d %d\n' % (((arr[0]-1)*4+3), rot2))
+        ser.write('p %d %d\n' % ((int((arr[0]-1)*4+0), lin1).encode()))
+        #ser.write(('p %d %d\n' % (4, lin1)).encode())
+        ser.write('p %d %d\n' % ((int((arr[0]-1)*4+1), rot1).encode()))
+        ser.write('p %d %d\n' % ((int((arr[0]-1)*4+2), lin2).encode()))
+        ser.write('p %d %d\n' % ((int((arr[0]-1)*4+3), rot2).encode()))
         
         return
 
