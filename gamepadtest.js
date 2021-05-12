@@ -34,6 +34,7 @@ function changeTeam()
 	{
 		team = 0;
 	}
+}
 
 function httpGet(theUrl)
 {
