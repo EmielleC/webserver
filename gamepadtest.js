@@ -31,7 +31,7 @@ function changeTeam()
 	{
 		team = 1;
 	}
-	else()
+	else
 	{
 		team = 0;
 	}
