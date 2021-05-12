@@ -297,7 +297,7 @@ class s(BaseHTTPRequestHandler):
         arr = message.split(',')
 
         rot2 = _map(float(arr[1]), -1.00, 1.00, 0, 180)
-        lin1 = _map(float(arr[2]), -1.00, 1.00, 0, 180)
+        lin2 = _map(float(arr[2]), -1.00, 1.00, 0, 180)
         rot1 = _map(float(arr[3]), -1.00, 1.00, 0, 180)
         lin1 = _map(float(arr[4]), -1.00, 1.00, 0, 180)
 
