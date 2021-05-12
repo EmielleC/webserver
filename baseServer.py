@@ -296,9 +296,9 @@ class s(BaseHTTPRequestHandler):
         message = self.data_string.decode("utf-8")
         arr = message.split(',')
 
-        rot2 = _map(float(arr[1]), -1.00, 1.00, 0, 180)
+        rot2 = _map((float(arr[1])*-1), -1.00, 1.00, 0, 180)
         lin2 = _map((float(arr[2])*-1), -1.00, 1.00, 0, 180)
-        rot1 = _map(float(arr[3]), -1.00, 1.00, 0, 180)
+        rot1 = _map((float(arr[3])*-1), -1.00, 1.00, 0, 180)
         lin1 = _map((float(arr[4])*-1), -1.00, 1.00, 0, 180)
 
         ser.write(('p %d %d\n' % ((int(0 + 2 * int(arr[0])), lin1))).encode())
