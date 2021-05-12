@@ -134,13 +134,14 @@ function updateStatus() {
   data[3] = controller.axes[2].toFixed(4)
   data[4] = controller.axes[3].toFixed(4)
   
-  var val = controller.buttons[0];
-  var touched = false;
-  touched = val.touched;
-  if(touched)
-  {
-	 sendPost("192.168.1.136:8000",data); 
-  }
+  //var val = controller.buttons[0];
+  //var touched = false;
+  //touched = val.touched;
+  //if(touched)
+  //{
+	// sendPost("192.168.1.136:8000",data); 
+  //}
+  sendPost("192.168.1.136:8000",data);
   
   rAF(updateStatus);
 }
