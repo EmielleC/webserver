@@ -12,6 +12,10 @@ var controllers = {};
 var rAF = window.mozRequestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
   window.requestAnimationFrame;
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
   
 function sendPost(theUrl, data){
   var url = "192.168.1.136:8000";
@@ -134,6 +138,7 @@ function updateStatus() {
   data[4] = controller.axes[3].toFixed(4)
   
   sendPost("192.168.1.136:8000",data);
+  await sleep(2000);
   rAF(updateStatus);
 }
 
