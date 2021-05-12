@@ -294,12 +294,12 @@ class s(BaseHTTPRequestHandler):
         
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))
         
-        print ('===================')
+        #print ('===================')
         #print(arr[1])
         
-        #message = self.data_string.decode("utf-8")
+        message = self.data_string.decode("utf-8")
         arr = message.split(',')
-        #print(arr)
+        print(arr)
         #print ('===================')
         lin1 = _map(arr[1], -1, 1, 0, 180)
         rot1 = _map(arr[2], -1, 1, 0, 180)
