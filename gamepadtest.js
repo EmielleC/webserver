@@ -44,6 +44,7 @@ function connecthandler(e) {
 }
 function addgamepad(gamepad) {
   controllers[gamepad.index] = gamepad; var d = document.createElement("div");
+  /*
   d.setAttribute("id", "controller" + gamepad.index);
   var t = document.createElement("h1");
   t.appendChild(document.createTextNode("gamepad: " + gamepad.id));
@@ -73,6 +74,7 @@ function addgamepad(gamepad) {
   d.appendChild(a);
   document.getElementById("start").style.display = "none";
   document.body.appendChild(d);
+  */
   rAF(updateStatus);
 }
 
@@ -90,6 +92,16 @@ function updateStatus() {
   scangamepads();
   for (j in controllers) {
     var controller = controllers[j];
+	
+	let data = new Array(5);
+    data[0] = 1
+    data[1] = controller.axes[0].toFixed(4)
+    data[2] = controller.axes[1].toFixed(4)
+    data[3] = controller.axes[2].toFixed(4)
+    data[4] = controller.axes[3].toFixed(4)
+ 
+  sendPost("192.168.1.136:8000",data);
+	/*
     var d = document.getElementById("controller" + j);
     var buttons = d.getElementsByClassName("button");
     for (var i=0; i<controller.buttons.length; i++) {
@@ -105,6 +117,7 @@ function updateStatus() {
         val = val.value;
       }
       var pct = Math.round(val * 100) + "%";
+	  
       b.style.backgroundSize = pct + " " + pct;
       b.className = "button";
       if (pressed) {
@@ -114,34 +127,19 @@ function updateStatus() {
         b.className += " touched";
       }
     }
-
+	
     var axes = d.getElementsByClassName("axis");
     for (var i=0; i<controller.axes.length; i++) {
       var a = axes[i];
       a.innerHTML = i + ": " + controller.axes[i].toFixed(4);
       a.setAttribute("value", controller.axes[i]);
     }
+	*/
+	
   }
   
-  let json = {
-    "email": "eve.holt@reqres.in",
-    "password": "cityslicka"
-	};
-  let data = new Array(5);
-  data[0] = 1
-  data[1] = controller.axes[0].toFixed(4)
-  data[2] = controller.axes[1].toFixed(4)
-  data[3] = controller.axes[2].toFixed(4)
-  data[4] = controller.axes[3].toFixed(4)
+ 
   
-  //var val = controller.buttons[0];
-  //var touched = false;
-  //touched = val.touched;
-  //if(touched)
-  //{
-	// sendPost("192.168.1.136:8000",data); 
-  //}
-  sendPost("192.168.1.136:8000",data);
   
   rAF(updateStatus);
 }
