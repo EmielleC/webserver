@@ -12,6 +12,29 @@ var controllers = {};
 var rAF = window.mozRequestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
   window.requestAnimationFrame;
+  
+function sendPost(){
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "https://reqbin.com/echo/post/json");
+  xhr.setRequestHeader("Accept", "application/json");
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      console.log(xhr.status);
+      console.log(xhr.responseText);
+     }};
+
+  var data = `{
+    "Id": 78912,
+    "Customer": "Jason Sweet",
+    "Quantity": 1,
+    "Price": 18.00
+  }`;
+
+  xhr.send(data);	
+}
+
 
 function connecthandler(e) {
   addgamepad(e.gamepad);
