@@ -33,7 +33,6 @@ from http import HTTPStatus
 def _map(x, in_min, in_max, out_min, out_max):
     return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
     
-    _map(value, -1, 1, 0, 180)
 ser = serial.Serial(
         port = '/dev/ttyACM0',
         baudrate = 115200,
