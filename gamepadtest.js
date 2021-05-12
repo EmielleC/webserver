@@ -13,7 +13,7 @@ var rAF = window.mozRequestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
   window.requestAnimationFrame;
   
-function sendPost(theUrl){
+function sendPost(theUrl, data){
   var xhr = new XMLHttpRequest();
   xhr.open("POST", theUrl);
   xhr.setRequestHeader("Accept", "application/json");
@@ -25,12 +25,12 @@ function sendPost(theUrl){
       console.log(xhr.responseText);
      }};
 
-  var data = `{
-    "Id": 78912,
-    "Customer": "Jason Sweet",
-    "Quantity": 1,
-    "Price": 18.00
-  }`;
+  //var data = `{
+  //  "Id": 78912,
+  //  "Customer": "Jason Sweet",
+  //  "Quantity": 1,
+  //  "Price": 18.00
+  //}`;
 
   xhr.send(data);	
 }
@@ -127,8 +127,7 @@ function updateStatus() {
       a.setAttribute("value", controller.axes[i]);
     }
   }
-  sendPost("192.168.1.136:8000");
-  //httpGet("192.168.1.136:8000");
+  sendPost("192.168.1.136:8000", axes);
   rAF(updateStatus);
 }
 
