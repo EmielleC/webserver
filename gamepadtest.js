@@ -35,6 +35,14 @@ function sendPost(){
   xhr.send(data);	
 }
 
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
 
 function connecthandler(e) {
   addgamepad(e.gamepad);
@@ -120,6 +128,7 @@ function updateStatus() {
     }
   }
   sendPost();
+  httpGet("192.168.1.136:8000");
   rAF(updateStatus);
 }
 
