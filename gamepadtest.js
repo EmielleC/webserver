@@ -135,7 +135,9 @@ function updateStatus() {
   data[4] = controller.axes[3].toFixed(4)
   
   var val = controller.buttons[0];
-  if(val == 1.0)
+  var touched = false;
+  touched = val.touched;
+  if(touched)
   {
 	 sendPost("192.168.1.136:8000",data); 
   }
