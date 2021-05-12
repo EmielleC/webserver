@@ -26,6 +26,7 @@ function sendPost(theUrl, data){
 
 function changeTeam()
 {
+	print("team change");
 	if(team == 0)
 	{
 		team = 1;
