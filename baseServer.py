@@ -310,10 +310,10 @@ class s(BaseHTTPRequestHandler):
         #ser.write('p %d %d\n' % ((int((arr[1]-1)*4+1), rot1).encode()))
         #ser.write('p %d %d\n' % ((int((arr[2]-1)*4+2), lin2).encode()))
         #ser.write('p %d %d\n' % ((int((arr[3]-1)*4+3), rot2).encode()))
-        ser.write('p %d %d\n' % ((int(0), lin1).encode()))
-        ser.write('p %d %d\n' % ((int(1), rot1).encode()))
-        ser.write('p %d %d\n' % ((int(2), lin2).encode()))
-        ser.write('p %d %d\n' % ((int(3), rot2).encode()))
+        ser.write(('p %d %d\n' % ((int(0), lin1)).encode()))
+        ser.write(('p %d %d\n' % ((int(1), rot1)).encode()))
+        ser.write(('p %d %d\n' % ((int(2), lin2)).encode()))
+        ser.write(('p %d %d\n' % ((int(3), rot2)).encode()))
         
         return
 
