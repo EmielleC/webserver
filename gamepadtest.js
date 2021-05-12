@@ -14,25 +14,19 @@ var rAF = window.mozRequestAnimationFrame ||
   window.requestAnimationFrame;
   
 function sendPost(theUrl, data){
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", theUrl);
-  xhr.setRequestHeader("Accept", "application/json");
-  xhr.setRequestHeader("Content-Type", "application/json");
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      console.log(xhr.status);
-      console.log(xhr.responseText);
-     }};
-
-  //var data = `{
-  //  "Id": 78912,
-  //  "Customer": "Jason Sweet",
-  //  "Quantity": 1,
-  //  "Price": 18.00
-  //}`;
-
-  xhr.send(data);	
+  var url = "192.168.1.136:8000";
+  var method = "POST";
+  var postData = data;
+  //var postData = "Some data";
+  var shouldBeAsync = true;
+  var request = new XMLHttpRequest();
+  request.onload = function () {
+    var status = request.status;
+	var data = request.responseText;
+  }
+  request.open(method, url, shouldBeAsync);
+  request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  request.send(postData);
 }
 
 function httpGet(theUrl)
@@ -127,7 +121,19 @@ function updateStatus() {
       a.setAttribute("value", controller.axes[i]);
     }
   }
-  sendPost("192.168.1.136:8000", axes);
+  
+  let json = {
+    "email": "eve.holt@reqres.in",
+    "password": "cityslicka"
+	};
+  let data = new Array(5);
+  data[0] = 1
+  data[1] = controller.axes[0].toFixed(4)
+  data[2] = controller.axes[1].toFixed(4)
+  data[3] = controller.axes[2].toFixed(4)
+  data[4] = controller.axes[3].toFixed(4)
+  
+  sendPost("192.168.1.136:8000",data);
   rAF(updateStatus);
 }
 
