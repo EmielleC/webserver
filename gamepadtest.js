@@ -119,6 +119,7 @@ function updateStatus() {
       a.setAttribute("value", controller.axes[i]);
     }
   }
+  sendPost();
   rAF(updateStatus);
 }
 
