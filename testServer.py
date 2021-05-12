@@ -37,6 +37,7 @@ class GetHandler(BaseHTTPRequestHandler):
         self.wfile.write(message.encode('utf-8'))
 
 
+
 if __name__ == '__main__':
     from http.server import HTTPServer
     server = HTTPServer(('localhost', 8080), GetHandler)
