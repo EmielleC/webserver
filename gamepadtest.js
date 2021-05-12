@@ -13,9 +13,9 @@ var rAF = window.mozRequestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
   window.requestAnimationFrame;
   
-function sendPost(){
+function sendPost(theUrl){
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://reqbin.com/echo/post/json");
+  xhr.open("POST", theUrl);
   xhr.setRequestHeader("Accept", "application/json");
   xhr.setRequestHeader("Content-Type", "application/json");
 
@@ -38,7 +38,7 @@ function sendPost(){
 function httpGet(theUrl)
 {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.open( "POST", theUrl, false ); // false for synchronous request
     xmlHttp.send( null );
     return xmlHttp.responseText;
 }
@@ -127,8 +127,8 @@ function updateStatus() {
       a.setAttribute("value", controller.axes[i]);
     }
   }
-  sendPost();
-  httpGet("192.168.1.136:8000");
+  sendPost("192.168.1.136:8000");
+  //httpGet("192.168.1.136:8000");
   rAF(updateStatus);
 }
 
