@@ -298,16 +298,17 @@ class s(BaseHTTPRequestHandler):
         
         message = self.data_string.decode("utf-8")
         arr = message.split(',')
-        print(arr)
+        #print(arr)
         #print ('===================')
         lin1 = _map(float(arr[1]), -1.00, 1.00, 0, 180)
         rot1 = _map(float(arr[2]), -1.00, 1.00, 0, 180)
         lin2 = _map(float(arr[3]), -1.00, 1.00, 0, 180)
         rot2 = _map(float(arr[4]), -1.00, 1.00, 0, 180)
-        ser.write('p %d %d\n' % (((arr[0]-1)*4+0), lin1))
-        ser.write('p %d %d\n' % (((arr[0]-1)*4+1), rot1))
-        ser.write('p %d %d\n' % (((arr[0]-1)*4+2), lin2))
-        ser.write('p %d %d\n' % (((arr[0]-1)*4+3), rot2))
+        print(lin1)
+        #ser.write('p %d %d\n' % (((arr[0]-1)*4+0), lin1))
+        #ser.write('p %d %d\n' % (((arr[0]-1)*4+1), rot1))
+        #ser.write('p %d %d\n' % (((arr[0]-1)*4+2), lin2))
+        #ser.write('p %d %d\n' % (((arr[0]-1)*4+3), rot2))
         
         return
 
