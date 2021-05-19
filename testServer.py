@@ -34,21 +34,19 @@ def decodeMessage(message):
 
 def stopVideo():
     #process.terminate()
-    os.killpg(pid, signal.SIGTERM)
+    cmd = ('killall mjpg_streamer')
+    process = subprocess.Popen(cmd, shell=True) 
 
 def startVideo(width,height, framerate, mode, quality):
-    #print('./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -quality {} -ex {}"'.format(width, height,framerate, mode, quality))
-    #cmd = 'explorer "https://google.com"'
-    #os.system(cmd)
+
     cmd = ('cd streamer && ./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -ex {} -quality {}"'.format(width, height,framerate, mode, quality))
-    #process = subprocess.Popen(cmd, shell=True)
-    #process = subprocess.Popen(cmd, shell=True)
     
-    process = subprocess.Popen(cmd, shell=True, preexec_fn=os.setsid) 
+    process = subprocess.Popen(cmd, shell=True) 
     print(cmd)
     print(process.pid)
     pid = process.pid
     print(pid)
+    
 
 def webServer():
     PORT = 8000

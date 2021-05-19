@@ -28,6 +28,7 @@ function restartVideoButton()
 	quality = document.getElementById('quality').value;
 	
 	restartVideo(resolutionSplit[0], resolutionSplit[1], framerate, mode, quality)
+	iframe.contentWindow.location.reload(true);
 }
 
 function webSocketConnectButton()
@@ -55,6 +56,7 @@ function restartVideo(width,height,framerate,mode,quality)
 	message += ","
 	message += quality
 	sendWebsocket(message)
+	
 }
 
 
