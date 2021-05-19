@@ -13,7 +13,7 @@ import abc
 #import simpleServo
 import testHardware
 
-process = subprocess.Popen
+pid = 0000
 
 def decodeMessage(message):
     #print(message)
@@ -42,9 +42,13 @@ def startVideo(width,height, framerate, mode, quality):
     #os.system(cmd)
     cmd = ('cd streamer && ./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -ex {} -quality {}"'.format(width, height,framerate, mode, quality))
     #process = subprocess.Popen(cmd, shell=True)
-    process = subprocess.Popen(cmd, shell=True)
+    #process = subprocess.Popen(cmd, shell=True)
+    
+    process = subprocess.Popen(cmd, shell=True, preexec_fn=os.setsid) 
     print(cmd)
     print(process.pid)
+    pid = process.pid
+    print(pid)
 
 def webServer():
     PORT = 8000
