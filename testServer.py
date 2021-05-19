@@ -3,11 +3,17 @@ import socketserver
 import websockets
 import asyncio
 
+import os
+import signal
+import subprocess
+
 from threading import Thread
 
 import abc
 #import simpleServo
 import testHardware
+
+process = subprocess.Popen
 
 def decodeMessage(message):
     #print(message)
@@ -16,11 +22,28 @@ def decodeMessage(message):
         print(word)
     #if(arr[0] == '0'):
     #    print(arr[1])
-    #    team 1
+
     #if(arr[0] == '1'):
-        #team 2
-    #message = self.data_string.decode("utf-8")
-    #arr = message.split(',')
+    #    print(arr[1])
+
+    if(arr[0] == 'v'):
+        startVideo(arr[1],arr[2],arr[3],arr[4],arr[5])
+        
+    if(arr[0] == 's'):
+        startVideo(arr[1],arr[2],arr[3],arr[4],arr[5])
+
+def stopVideo():
+    #process.terminate()
+    os.killpg(os.getpgid(process.pid), signal.SIGTERM)
+
+def startVideo(width,height, framerate, mode, quality):
+    #print('./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -quality {} -ex {}"'.format(width, height,framerate, mode, quality))
+    #cmd = 'explorer "https://google.com"'
+    #os.system(cmd)
+    cmd = ('./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -quality {} -ex {}"'.format(width, height,framerate, mode, quality))
+    #process = subprocess.Popen(cmd, shell=True)
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid) 
+    print(cmd)
 
 def webServer():
     PORT = 8000
@@ -42,7 +65,7 @@ def webSocketServer():
     
 
     # Create websocket server
-    start_server = websockets.serve(server, "localhost", 6789)
+    start_server = websockets.serve(server, "192.168.1.136", 6789)
 
     # Start and run websocket server forever
     asyncio.get_event_loop().run_until_complete(start_server)
