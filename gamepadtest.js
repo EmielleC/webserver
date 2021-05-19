@@ -59,7 +59,7 @@ function sendWebsocket(data)
 
 function webSocketConnect()
 {
-	socket = new WebSocket("ws://192.168.1.106:6789/");
+	socket = new WebSocket("ws://192.168.1.136:6789/");
 }
 
 
