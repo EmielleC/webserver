@@ -34,7 +34,7 @@ def decodeMessage(message):
 
 def stopVideo():
     #process.terminate()
-    process.terminate()
+    os.killpg(pid, signal.SIGTERM)
 
 def startVideo(width,height, framerate, mode, quality):
     #print('./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -quality {} -ex {}"'.format(width, height,framerate, mode, quality))
