@@ -44,6 +44,7 @@ def startVideo(width,height, framerate, mode, quality):
     #process = subprocess.Popen(cmd, shell=True)
     process = subprocess.Popen(cmd, shell=True)
     print(cmd)
+    print(process.pid)
 
 def webServer():
     PORT = 8000
