@@ -35,6 +35,11 @@ function webSocketConnectButton()
 	webSocketConnect();
 }
 
+function stopVideoButton()
+{
+	webSocketConnect();
+}
+
 function restartVideo(width,height,framerate,mode,quality)
 {
 	message = "v,"
@@ -54,7 +59,9 @@ function restartVideo(width,height,framerate,mode,quality)
 
 function sendWebsocket(data)
 {
-	socket.send(data);
+	message = "s,"
+	message += " "
+	sendWebsocket(message)
 }
 
 function webSocketConnect()

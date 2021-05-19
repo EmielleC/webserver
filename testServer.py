@@ -30,7 +30,7 @@ def decodeMessage(message):
         startVideo(arr[1],arr[2],arr[3],arr[4],arr[5])
         
     if(arr[0] == 's'):
-        startVideo(arr[1],arr[2],arr[3],arr[4],arr[5])
+        stopVideo()
 
 def stopVideo():
     #process.terminate()
