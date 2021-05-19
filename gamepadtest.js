@@ -7,7 +7,62 @@ var rAF = window.mozRequestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
   window.requestAnimationFrame;
 
-  
+let socket;
+
+function changeTeamButton()
+{
+	changeTeam()
+}
+
+function changeControlModeButton()
+{
+	
+}
+
+function restartVideoButton()
+{
+	resolution = document.querySelector('input[name="resolution"]:checked').value;
+	resolutionSplit = resolution.split("x");
+	framerate = document.querySelector('input[name="framerate"]:checked').value;
+	mode = document.querySelector('input[name="mode"]:checked').value;
+	quality = document.getElementById('quality').value;
+	
+	restartVideo(resolutionSplit[0], resolutionSplit[1], framerate, mode, quality)
+}
+
+function webSocketConnectButton()
+{
+	webSocketConnect();
+}
+
+function restartVideo(width,height,framerate,mode,quality)
+{
+	message = "v,"
+	message += width
+	message += ","
+	message += height
+	message += ","
+	message += framerate
+	message += ","
+	message += mode
+	message += ","
+	message += quality
+	sendWebsocket(message)
+}
+
+
+
+function sendWebsocket(data)
+{
+	socket.send(data);
+}
+
+function webSocketConnect()
+{
+	socket = new WebSocket("ws://127.0.0.1:6789/");
+}
+
+
 function sendPost(theUrl, data){
   var url = "192.168.1.136:8000";
   var method = "POST";
@@ -76,7 +131,7 @@ function updateStatus() {
     data[3] = controller.axes[2].toFixed(4)
     data[4] = controller.axes[3].toFixed(4)
  
-  sendPost("192.168.1.136:8000",data);
+  //sendPost("192.168.1.136:8000",data);
 	
 	
   }

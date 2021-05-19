@@ -8,6 +8,7 @@ __all__ = [
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import random
 
+import abc
 import copy
 import datetime
 import email.utils
@@ -25,33 +26,27 @@ import sys
 import time
 import urllib.parse
 import contextlib
-import serial
+
 from functools import partial
 
 from http import HTTPStatus
 
+#import interface
+#import simpleServo
+import testHardware
+
+
+
+
+
 def _map(x, in_min, in_max, out_min, out_max):
     return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
     
-ser = serial.Serial(
-        port = '/dev/ttyACM0',
-        baudrate = 115200,
-        parity = serial.PARITY_NONE,
-        bytesize = serial.EIGHTBITS,
-        timeout = 1
-)
+
 
 
 class s(BaseHTTPRequestHandler):
-
-    """Simple HTTP request handler with GET and HEAD commands.
-    This serves files from the current directory and any of its
-    subdirectories.  The MIME type for files is determined by
-    calling the .guess_type() method.
-    The GET and HEAD requests are identical except that the HEAD
-    request omits the actual contents of the file.
-    """
-
+    usedHardware = testHardware.testhardware
     server_version = "SimpleHTTP/" + __version__
     extensions_map = _encodings_map_default = {
         '.gz': 'application/gzip',
@@ -82,13 +77,7 @@ class s(BaseHTTPRequestHandler):
             f.close()
 
     def send_head(self):
-        """Common code for GET and HEAD commands.
-        This sends the response code and MIME headers.
-        Return value is either a file object (which has to be copied
-        to the outputfile by the caller unless the command was HEAD,
-        and must be closed by the caller under all circumstances), or
-        None, in which case the caller has nothing further to do.
-        """
+
         path = self.translate_path(self.path)
         f = None
         if os.path.isdir(path):
@@ -111,11 +100,7 @@ class s(BaseHTTPRequestHandler):
             else:
                 return self.list_directory(path)
         ctype = self.guess_type(path)
-        # check for trailing "/" which should return 404. See Issue17324
-        # The test for this was added in test_httpserver.py
-        # However, some OS platforms accept a trailingSlash as a filename
-        # See discussion on python-dev and Issue34711 regarding
-        # parseing and rejection of filenames with a trailing slash
+        
         if path.endswith("/"):
             self.send_error(HTTPStatus.NOT_FOUND, "File not found")
             return None
@@ -167,11 +152,7 @@ class s(BaseHTTPRequestHandler):
             raise
 
     def list_directory(self, path):
-        """Helper to produce a directory listing (absent index.html).
-        Return value is either a file object, or None (indicating an
-        error).  In either case, the headers are sent, making the
-        interface the same as for send_head().
-        """
+        
         try:
             list = os.listdir(path)
         except OSError:
@@ -223,11 +204,7 @@ class s(BaseHTTPRequestHandler):
         return f
 
     def translate_path(self, path):
-        """Translate a /-separated PATH to the local filename syntax.
-        Components that mean special things to the local file system
-        (e.g. drive or directory names) are ignored.  (XXX They should
-        probably be diagnosed.)
-        """
+        
         # abandon query parameters
         path = path.split('?',1)[0]
         path = path.split('#',1)[0]
@@ -251,28 +228,11 @@ class s(BaseHTTPRequestHandler):
         return path
 
     def copyfile(self, source, outputfile):
-        """Copy all data between two file objects.
-        The SOURCE argument is a file object open for reading
-        (or anything with a read() method) and the DESTINATION
-        argument is a file object open for writing (or
-        anything with a write() method).
-        The only reason for overriding this would be to change
-        the block size or perhaps to replace newlines by CRLF
-        -- note however that this the default server uses this
-        to copy binary data as well.
-        """
+       
         shutil.copyfileobj(source, outputfile)
 
     def guess_type(self, path):
-        """Guess the type of a file.
-        Argument is a PATH (a filename).
-        Return value is a string of the form type/subtype,
-        usable for a MIME Content-type header.
-        The default implementation looks the file's extension
-        up in the table self.extensions_map, using application/octet-stream
-        as a default; however it would be permissible (if
-        slow) to look inside the data to make a better guess.
-        """
+        
         base, ext = posixpath.splitext(path)
         if ext in self.extensions_map:
             return self.extensions_map[ext]
@@ -296,15 +256,9 @@ class s(BaseHTTPRequestHandler):
         message = self.data_string.decode("utf-8")
         arr = message.split(',')
 
-        rot2 = _map((float(arr[1])*-1), -1.00, 1.00, 0, 180)
-        lin2 = _map((float(arr[2])*-1), -1.00, 1.00, 0, 180)
-        rot1 = _map((float(arr[3])*-1), -1.00, 1.00, 0, 180)
-        lin1 = _map((float(arr[4])*-1), -1.00, 1.00, 0, 180)
-
-        ser.write(('p %d %d\n' % ((int(0 + 2 * int(arr[0])), lin1))).encode())
-        ser.write(('p %d %d\n' % ((int(1 + 2 * int(arr[0])), rot1))).encode())
-        ser.write(('p %d %d\n' % ((int(4 + 2 * int(arr[0])), lin2))).encode())
-        ser.write(('p %d %d\n' % ((int(5 + 2 * int(arr[0])), rot2))).encode())
+        
+        self.usedHardware.moveMotor(1,1)
+       
         
         return
 
