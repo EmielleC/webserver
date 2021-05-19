@@ -40,7 +40,7 @@ def startVideo(width,height, framerate, mode, quality):
     #print('./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -quality {} -ex {}"'.format(width, height,framerate, mode, quality))
     #cmd = 'explorer "https://google.com"'
     #os.system(cmd)
-    cmd = ('cd streamer && ./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -quality {} -ex {}"'.format(width, height,framerate, mode, quality))
+    cmd = ('cd streamer && ./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -ex {} -quality {}"'.format(width, height,framerate, mode, quality))
     #process = subprocess.Popen(cmd, shell=True)
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid) 
     print(cmd)
