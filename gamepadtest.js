@@ -141,6 +141,7 @@ function updateStatus() {
     data[4] = controller.axes[3].toFixed(4)
  
   //sendPost("192.168.1.136:8000",data);
+	sendWebsocket(data)
 	
 	
   }

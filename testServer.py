@@ -12,19 +12,30 @@ from threading import Thread
 import abc
 #import simpleServo
 import testHardware
+import simpleServo
 
 pid = 0000
+
+usedHardware = simpleServo.simpleServer
 
 def decodeMessage(message):
     #print(message)
     arr = message.split(',')
     for word in arr:
         print(word)
-    #if(arr[0] == '0'):
-    #    print(arr[1])
+    if(arr[0] == '0'):
+        #print(arr[1])
+        usedHardware.usedHardware.moveMotor(0,arr[1])
+        usedHardware.usedHardware.moveMotor(1,arr[2])
+        usedHardware.usedHardware.moveMotor(4,arr[3])
+        usedHardware.usedHardware.moveMotor(5,arr[4])
 
-    #if(arr[0] == '1'):
-    #    print(arr[1])
+    if(arr[0] == '1'):
+        #print(arr[1])
+        usedHardware.usedHardware.moveMotor(2,arr[1])
+        usedHardware.usedHardware.moveMotor(3,arr[2])
+        usedHardware.usedHardware.moveMotor(6,arr[3])
+        usedHardware.usedHardware.moveMotor(7,arr[4])
 
     if(arr[0] == 'v'):
         startVideo(arr[1],arr[2],arr[3],arr[4],arr[5])
