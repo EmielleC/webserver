@@ -16,7 +16,7 @@ import simpleServo
 
 pid = 0000
 
-usedHardware = simpleServo.simpleServer
+usedHardware = simpleServo.simpleServo
 
 def decodeMessage(message):
     #print(message)
