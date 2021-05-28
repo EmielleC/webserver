@@ -17,12 +17,13 @@ import simpleServo
 pid = 0000
 
 usedHardware = simpleServo.simpleServo
+#usedHardware = testHardware.testHardware
 
 def decodeMessage(message):
     #print(message)
     arr = message.split(',')
-    for word in arr:
-        print(word)
+    #for word in arr:
+    #    print(word)
     if(arr[0] == '0'):
         #print(arr[1])
         usedHardware.moveMotor(0,arr[1])
@@ -79,7 +80,7 @@ def webSocketServer():
     
 
     # Create websocket server
-    start_server = websockets.serve(server, "192.168.1.136", 6789)
+    start_server = websockets.serve(server, "192.168.1.106", 6789)
 
     # Start and run websocket server forever
     asyncio.get_event_loop().run_until_complete(start_server)

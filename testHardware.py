@@ -1,8 +1,13 @@
 import interface
  
-class testhardware(interface.motorHardware) :
+class testHardware(interface.motorHardware) :
     def setup():
         print("setting up==========================================")
     def moveMotor(servo, radValue ):
-        print("Moving motor")
+        if servo == 1:
+            print(radValue)
+        #print("servo")
+        #print(servo)
+        #print("radValue")
+        #print(radValue)
  

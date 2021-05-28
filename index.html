@@ -57,6 +57,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 </div>
 <div class="settingsDiv">
 	<div class="settingsTypesDiv">
+		<p><strong>Team choice</strong></p>
 		<input class="w3-radio" type="radio" name="team" value="red" checked>
 		<label>Red</label></p>
 
@@ -67,19 +68,27 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 	</div>
 	
 	<div class="settingsTypesDiv">
-	
-		<input type="radio" name="control" value="Relative" checked>
-		<label>Relative</label></p>
-
-		<input type="radio" name="control" value="Absolute">
+		<p><strong>Control</strong></p>
+		<input type="radio" name="control" value="absolute" checked>
 		<label>Absolute</label></p>
 		
+		<input type="radio" name="control" value="relative" >
+		<label>Relative</label></p>
+
 		
-		<input type="button" onclick="changeControlModeButton()" value="Change control mode" />
+		Sensitivity
+		<br>
+		<input type="number" id="sensitivity" name="sensitivity" min="1" max="100" value="0.05">
+		<br>
+		Control refresh rate
+		<br>
+		<input type="number" id="controlRate" name="controlRate" min="1" max="1000" value="60">
+		
+		<input type="button" onclick="changeControlButton()" value="Change control mode" />
 	</div>
 	
 	<div class="settingsTypesDiv">
-	
+		<p><strong>Video resolution</strong></p>
 		<input type="radio" name="resolution" value="1280x720" checked>
 		<label>1280x720</label></p>
 
@@ -94,7 +103,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 	
 	
 	<div class="settingsTypesDiv">
-
+		<p><strong>Video framerate</strong></p>
 		<input type="radio" name="framerate" value="60" checked>
 		<label>60</label></p>
 
@@ -108,22 +117,24 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 	</div>	
 	
 	<div class="settingsTypesDiv">
-		<input type="number" id="quality" name="quality" min="1" max="100" value="85">
+		<p><strong>Video compression</strong></p>
+		<input type="number" id="quality" name="quality" min="1" max="100" value="20">
 	</div>
 	
 	<div class="settingsTypesDiv">
-
+		<p><strong>Image motion</strong></p>
 		<input type="radio" name="mode" value="sports" checked>
-		<label>Sport</label></p>
+		<label>Motion blur</label></p>
 
 		<input type="radio" name="mode" value="fixedfps">
-		<label>FixedFps</label></p>
+		<label>Sharp</label></p>
 		
 
 	</div>
 	
 	
 	<div class="settingsTypesDiv">
+		<input type="text" id="websocketAddress" name="websocketAddress" value="ws://192.168.1.106:6789/">
 		<input type="button" onclick="restartVideoButton()" value="Restart video" />
 		<input type="button" onclick="stopVideoButton()" value="Stop video" />
 		<input type="button" onclick="webSocketConnectButton()" value="Open web socket" />

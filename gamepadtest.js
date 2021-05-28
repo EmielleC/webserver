@@ -7,6 +7,12 @@ var rAF = window.mozRequestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
   window.requestAnimationFrame;
 
+var intervalTimer;
+var controlMode = 'absolute';
+
+var values = new Array(4);
+var globalSensitivty = 1;
+
 let socket;
 
 function changeTeamButton()
@@ -14,8 +20,12 @@ function changeTeamButton()
 	changeTeam()
 }
 
-function changeControlModeButton()
+function changeControlButton()
 {
+	controlMode = document.querySelector('input[name="control"]:checked').value;
+	rate = document.getElementById('controlRate').value;
+	sensitivity = document.getElementById('sensitivity').value;
+	changeControl(sensitivity, rate);
 	
 }
 
@@ -59,6 +69,65 @@ function restartVideo(width,height,framerate,mode,quality)
 	
 }
 
+ 
+
+function controlInterval()
+{
+	scangamepads();
+	for (j in controllers) {
+		var controller = controllers[j];
+		
+		let data = new Array(5);
+		data[0] = team
+		
+		if ( controlMode == 'absolute')
+		{
+			values[0] = controller.axes[0].toFixed(4)
+			values[1] = controller.axes[1].toFixed(4)
+			values[2] = controller.axes[2].toFixed(4)
+			values[3] = controller.axes[3].toFixed(4)
+		}
+		
+		if ( controlMode == 'relative')
+		{
+			values[0] = values[0] + (controller.axes[0].toFixed(4) * globalSensitivty);
+			if( values[0] > 1) values[0] = 1;
+			if( values[0] < -1) values[0] = -1;
+			values[1] = values[1] + (controller.axes[1].toFixed(4) * globalSensitivty);
+			if( values[1] > 1) values[1] = 1;
+			if( values[1] < -1) values[1] = -1;
+			values[2] = values[2] + (controller.axes[2].toFixed(4) * globalSensitivty);
+			if( values[2] > 1) values[2] = 1;
+			if( values[2] < -1) values[2] = -1;
+			values[3] = values[3] + (controller.axes[3].toFixed(4) * globalSensitivty);
+			if( values[3] > 1) values[3] = 1;
+			if( values[3] < -1) values[3] = -1;
+		}
+		
+		data[1] = values[0]
+		data[2] = values[1]
+		data[3] = values[2]
+		data[4] = values[3]
+ 
+		sendWebsocket(data)
+	
+	
+  }
+}
+
+
+function changeControl(sensitivity, rate)
+{
+	globalSensitivty = sensitivity;
+	values[0] = 0
+	values[1] = 0
+	values[2] = 0
+	values[3] = 0
+	clearInterval(intervalTimer);
+	milliRate = 1000 / rate;
+	intervalTimer = setInterval(controlInterval, milliRate);
+	
+}
 
 
 function sendWebsocket(data)
@@ -68,7 +137,8 @@ function sendWebsocket(data)
 
 function webSocketConnect()
 {
-	socket = new WebSocket("ws://192.168.1.136:6789/");
+	ip = document.getElementById('websocketAddress').value;
+	socket = new WebSocket(ip);
 }
 
 
@@ -115,7 +185,7 @@ function connecthandler(e) {
 function addgamepad(gamepad) {
   controllers[gamepad.index] = gamepad; var d = document.createElement("div");
   
-  rAF(updateStatus);
+  //rAF(updateStatus);
 }
 
 function disconnecthandler(e) {
@@ -129,6 +199,7 @@ function removegamepad(gamepad) {
 }
 
 function updateStatus() {
+	/*
   scangamepads();
   for (j in controllers) {
     var controller = controllers[j];
@@ -150,6 +221,7 @@ function updateStatus() {
   
   
   rAF(updateStatus);
+  */
 }
 
 function scangamepads() {

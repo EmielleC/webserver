@@ -25,4 +25,4 @@ class simpleServo(interface.motorHardware) :
         
         ser.write(('p %d %d\n' % (servo, value)).encode())
 
-        print("Moving motor")
+        #print("Moving motor")
