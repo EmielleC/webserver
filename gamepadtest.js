@@ -104,10 +104,10 @@ function controlInterval()
 			if( values[3] < -1) values[3] = -1;
 		}
 		
-		data[1] = values[0]
-		data[2] = values[1]
-		data[3] = values[2]
-		data[4] = values[3]
+		data[1] = values[3]
+		data[2] = values[2]
+		data[3] = values[1]
+		data[4] = values[0]
  
 		sendWebsocket(data)
 	
