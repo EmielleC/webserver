@@ -80,7 +80,7 @@ def webSocketServer():
     
 
     # Create websocket server
-    start_server = websockets.serve(server, "192.168.1.106", 6789)
+    start_server = websockets.serve(server, "192.168.1.136", 6789)
 
     # Start and run websocket server forever
     asyncio.get_event_loop().run_until_complete(start_server)
