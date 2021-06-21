@@ -1,7 +1,8 @@
 import serial
 import interface
 
-
+def map(x, in_min, in_max, out_min, out_max):
+        return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
     
 ser = serial.Serial(
@@ -14,14 +15,13 @@ ser = serial.Serial(
 
 class simpleServo(interface.motorHardware) :
     
-    def map(x, in_min, in_max, out_min, out_max):
-        return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
+    
 
     def setup():
         print("setting up==========================================")
     def moveMotor(self,servo, radValue ):
     
-        value = self.map((float(radValue)*-1), -1.00, 1.00, 0, 180)
+        value = map((float(radValue)*-1), -1.00, 1.00, 0, 180)
         
         ser.write(('p %d %d\n' % (servo, value)).encode())
 
