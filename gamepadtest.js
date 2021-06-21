@@ -96,9 +96,9 @@ function controlInterval()
 		
 		if ( controlMode == 'absolute')
 		{
-			values[0] = controller.axes[0];
+			values[0] = controller.axes[0] * (Math.PI / 2);
 			values[1] = controller.axes[1] * (Math.PI / 2);
-			values[2] = controller.axes[2];
+			values[2] = controller.axes[2] * (Math.PI / 2);
 			values[3] = controller.axes[3] * (Math.PI / 2);
 		}
 		
