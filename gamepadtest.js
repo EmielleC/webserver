@@ -37,9 +37,10 @@ function reloadVideoIframe()
 {
 	var rand = Math.floor((Math.random()*1000000)+1);
 	var iframe = document.getElementById('videoFeed');
-	var newSource = location.hostname + ":8080/?action=stream?uid="+rand;
+	var newSource = "http://" + location.hostname + ":8080/?action=stream?uid="+rand;
 	iframe.src = newSource;
 	iframe.contentWindow.location.reload(true);
+	
 }
 
 function startVideoButton()
