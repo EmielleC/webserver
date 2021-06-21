@@ -15,13 +15,12 @@ var globalSensitivty = 1;
 
 let socket;
 
-function changeTeamButton()
-{
-	changeTeam()
+function changeTeamButton(){
+	teamToChangeTo = document.querySelector('input[name="team"]:checked').value;
+	changeTeam(teamToChangeTo)
 }
 
-function changeControlButton()
-{
+function changeControlButton(){
 	controlMode = document.querySelector('input[name="control"]:checked').value;
 	rate = document.getElementById('controlRate').value;
 	sensitivity = document.getElementById('sensitivity').value;
@@ -29,8 +28,7 @@ function changeControlButton()
 	
 }
 
-function restartVideoButton()
-{
+function restartVideoButton(){
 	resolution = document.querySelector('input[name="resolution"]:checked').value;
 	resolutionSplit = resolution.split("x");
 	framerate = document.querySelector('input[name="framerate"]:checked').value;
@@ -41,20 +39,17 @@ function restartVideoButton()
 	iframe.contentWindow.location.reload(true);
 }
 
-function webSocketConnectButton()
-{
+function webSocketConnectButton(){
 	webSocketConnect();
 }
 
-function stopVideoButton()
-{
+function stopVideoButton(){
 	message = "s,"
 	message += " "
 	sendWebsocket(message)
 }
 
-function restartVideo(width,height,framerate,mode,quality)
-{
+function restartVideo(width,height,framerate,mode,quality){
 	message = "v,"
 	message += width
 	message += ","
@@ -69,10 +64,7 @@ function restartVideo(width,height,framerate,mode,quality)
 	
 }
 
- 
-
-function controlInterval()
-{
+function controlInterval(){
 	scangamepads();
 	for (j in controllers) {
 		var controller = controllers[j];
@@ -115,9 +107,7 @@ function controlInterval()
   }
 }
 
-
-function changeControl(sensitivity, rate)
-{
+function changeControl(sensitivity, rate){
 	globalSensitivty = sensitivity;
 	values[0] = 0
 	values[1] = 0
@@ -129,18 +119,14 @@ function changeControl(sensitivity, rate)
 	
 }
 
-
-function sendWebsocket(data)
-{
+function sendWebsocket(data){
 	socket.send(data);
 }
 
-function webSocketConnect()
-{
+function webSocketConnect(){
 	ip = document.getElementById('websocketAddress').value;
 	socket = new WebSocket(ip);
 }
-
 
 function sendPost(theUrl, data){
   var url = "192.168.1.136:8000";
@@ -158,30 +144,21 @@ function sendPost(theUrl, data){
   request.send(postData);
 }
 
-function changeTeam()
-{
-	if(team == 0)
-	{
-		team = 1;
-	}
-	else
-	{
-		team = 0;
-	}
+function changeTeam(teamChange){
+	team = teamChange
 }
 
-function httpGet(theUrl)
-{
+function httpGet(theUrl){
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "POST", theUrl, false ); // false for synchronous request
     xmlHttp.send( null );
     return xmlHttp.responseText;
 }
 
-
 function connecthandler(e) {
   addgamepad(e.gamepad);
 }
+
 function addgamepad(gamepad) {
   controllers[gamepad.index] = gamepad; var d = document.createElement("div");
   
@@ -196,32 +173,6 @@ function removegamepad(gamepad) {
   var d = document.getElementById("controller" + gamepad.index);
   document.body.removeChild(d);
   delete controllers[gamepad.index];
-}
-
-function updateStatus() {
-	/*
-  scangamepads();
-  for (j in controllers) {
-    var controller = controllers[j];
-	
-	let data = new Array(5);
-    data[0] = team
-    data[1] = controller.axes[0].toFixed(4)
-    data[2] = controller.axes[1].toFixed(4)
-    data[3] = controller.axes[2].toFixed(4)
-    data[4] = controller.axes[3].toFixed(4)
- 
-  //sendPost("192.168.1.136:8000",data);
-	sendWebsocket(data)
-	
-	
-  }
-  
- 
-  
-  
-  rAF(updateStatus);
-  */
 }
 
 function scangamepads() {

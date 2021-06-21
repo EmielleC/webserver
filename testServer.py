@@ -11,89 +11,104 @@ from threading import Thread
 
 import abc
 #import simpleServo
-import testHardware
+#import testHardware
 import simpleServo
 
-pid = 0000
 
-usedHardware = simpleServo.simpleServo
-#usedHardware = testHardware.testHardware
-
-def decodeMessage(message):
-    #print(message)
-    arr = message.split(',')
-    #for word in arr:
-    #    print(word)
-    if(arr[0] == '0'):
-        #print(arr[1])
-        usedHardware.moveMotor(0,arr[1])
-        usedHardware.moveMotor(1,arr[2])
-        usedHardware.moveMotor(4,arr[3])
-        usedHardware.moveMotor(5,arr[4])
-
-    if(arr[0] == '1'):
-        #print(arr[1])
-        usedHardware.moveMotor(2,arr[1])
-        usedHardware.moveMotor(3,arr[2])
-        usedHardware.moveMotor(6,arr[3])
-        usedHardware.moveMotor(7,arr[4])
-
-    if(arr[0] == 'v'):
-        startVideo(arr[1],arr[2],arr[3],arr[4],arr[5])
+class webSockets():
+    def __init__(self, decode):
+        self.decode =  decode
         
-    if(arr[0] == 's'):
-        stopVideo()
-
-def stopVideo():
-    #process.terminate()
-    cmd = ('killall mjpg_streamer')
-    process = subprocess.Popen(cmd, shell=True) 
-
-def startVideo(width,height, framerate, mode, quality):
-
-    cmd = ('cd streamer && ./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -ex {} -quality {}"'.format(width, height,framerate, mode, quality))
+    async def server(self,websocket, path):
+        async for message in websocket:
+            #print("message received" )
+            self.decode.decodeMessage(message)
+            
+    def startWebSocketServer(self):
+        print("websocket server started" )
+        start_server = websockets.serve(self.server, "192.168.1.106", 6789)
+        asyncio.get_event_loop().run_until_complete(start_server)
+        asyncio.get_event_loop().run_forever()
     
-    process = subprocess.Popen(cmd, shell=True) 
-    print(cmd)
-    print(process.pid)
-    pid = process.pid
-    print(pid)
     
 
-def webServer():
-    PORT = 8000
-    Handler = http.server.SimpleHTTPRequestHandler
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        print("serving at port", PORT)
-        print("pre test print" )
-        httpd.serve_forever()
-        print("test print" )
+class webServer:
+    def startWebServer(self):
+        PORT = 8000
+        Handler = http.server.SimpleHTTPRequestHandler
+        with socketserver.TCPServer(("", PORT), Handler) as httpd:
+            print("serving at port", PORT)
+            print("pre test print" )
+            httpd.serve_forever()
+            print("test print" )
+            
+    def startWebServerThread(self):
+        print("serving at port")
+        t1 = Thread(target=self.startWebServer)
+        t1.start()
+        print("thread started")
         
-async def server(websocket, path):
-    async for message in websocket:
-        decodeMessage(message)
-
-      #  await websocket.send(message)
     
-
-def webSocketServer():
+class videoControl:
+    def stopVideo(self):
+        cmd = ('killall mjpg_streamer')
+        process = subprocess.Popen(cmd, shell=True) 
     
+    def startVideo(self,width,height, framerate, mode, quality):
 
-    # Create websocket server
-    start_server = websockets.serve(server, "192.168.1.136", 6789)
+        cmd = ('cd streamer && ./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -ex {} -quality {}"'.format(width, height,framerate, mode, quality))
+    
+        process = subprocess.Popen(cmd, shell=True) 
+        print(cmd)
 
-    # Start and run websocket server forever
-    asyncio.get_event_loop().run_until_complete(start_server)
-    asyncio.get_event_loop().run_forever()
 
-t1 = Thread(target=webServer)
-#t2 = Thread(target=webSocketServer)
-#t2 = Thread(target=task)
+class clientServerProtocol:
+    def __init__(self, video, usedHardware):
+        self.videoControl =  video
+        self.hardwareControl = usedHardware
+        
+    def decodeMessage(self, message):
+        
+        arr = message.split(',')
+        #print("message received2" )
+        if(arr[0] == '0'):
+            #print(arr[0])
+            self.hardwareControl.moveMotor(0,arr[1])
+            self.hardwareControl.moveMotor(1,arr[2])
+            self.hardwareControl.moveMotor(4,arr[3])
+            self.hardwareControl.moveMotor(5,arr[4])
 
-t1.start()
-#t2.start()
-webSocketServer()
-#webServer();
-#print("test print" )
-#while(1):
-#    print("test print" )
+        if(arr[0] == '1'):
+            #print(arr[1])
+            self.hardwareControl.moveMotor(2,arr[1])
+            self.hardwareControl.moveMotor(3,arr[2])
+            self.hardwareControl.moveMotor(6,arr[3])
+            self.hardwareControl.moveMotor(7,arr[4])
+
+        if(arr[0] == 'v'):
+            self.videoControl.startVideo(arr[1],arr[2],arr[3],arr[4],arr[5])
+        
+        if(arr[0] == 's'):
+            self.videoControl.stopVideo()
+
+
+
+webServer = webServer()  
+
+videoControl = videoControl()
+#usedHardware = testHardware.testHardware()
+usedHardware = simpleServo.simpleServo()
+
+clientServerProtocol = clientServerProtocol(videoControl, usedHardware)
+
+webSockets = webSockets(clientServerProtocol)
+
+
+        
+webServer.startWebServerThread()
+
+print("web server started" )
+webSockets.startWebSocketServer()
+
+
+
