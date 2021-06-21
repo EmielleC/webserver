@@ -10,8 +10,8 @@ import subprocess
 from threading import Thread
 
 import abc
-#import simpleServo
-#import testHardware
+
+import testHardware
 import simpleServo
 
 
@@ -21,12 +21,12 @@ class webSockets():
         
     async def server(self,websocket, path):
         async for message in websocket:
-            #print("message received" )
             self.decode.decodeMessage(message)
             
     def startWebSocketServer(self):
-        print("websocket server started" )
-        start_server = websockets.serve(self.server, "192.168.1.136", 6789)
+        PORT = 6789
+        start_server = websockets.serve(self.server, "0.0.0.0", PORT)
+        print("serving web sockets server at port", PORT)
         asyncio.get_event_loop().run_until_complete(start_server)
         asyncio.get_event_loop().run_forever()
     
@@ -37,16 +37,12 @@ class webServer:
         PORT = 8000
         Handler = http.server.SimpleHTTPRequestHandler
         with socketserver.TCPServer(("", PORT), Handler) as httpd:
-            print("serving at port", PORT)
-            print("pre test print" )
+            print("serving web server at port", PORT)
             httpd.serve_forever()
-            print("test print" )
             
     def startWebServerThread(self):
-        print("serving at port")
         t1 = Thread(target=self.startWebServer)
         t1.start()
-        print("thread started")
         
     
 class videoControl:
@@ -59,7 +55,7 @@ class videoControl:
         cmd = ('cd streamer && ./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x {} -y {} -fps {} -ex {} -quality {}"'.format(width, height,framerate, mode, quality))
     
         process = subprocess.Popen(cmd, shell=True) 
-        print(cmd)
+        print("started video with command ", cmd)
 
 
 class clientServerProtocol:
@@ -70,16 +66,14 @@ class clientServerProtocol:
     def decodeMessage(self, message):
         
         arr = message.split(',')
-        #print("message received2" )
+
         if(arr[0] == '0'):
-            #print(arr[0])
             self.hardwareControl.moveMotor(0,arr[1])
             self.hardwareControl.moveMotor(1,arr[2])
             self.hardwareControl.moveMotor(4,arr[3])
             self.hardwareControl.moveMotor(5,arr[4])
 
         if(arr[0] == '1'):
-            #print(arr[1])
             self.hardwareControl.moveMotor(2,arr[1])
             self.hardwareControl.moveMotor(3,arr[2])
             self.hardwareControl.moveMotor(6,arr[3])
@@ -103,11 +97,8 @@ clientServerProtocol = clientServerProtocol(videoControl, usedHardware)
 
 webSockets = webSockets(clientServerProtocol)
 
-
-        
 webServer.startWebServerThread()
 
-print("web server started" )
 webSockets.startWebSocketServer()
 
 

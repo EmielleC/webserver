@@ -2,17 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<!--
 
-Gamepad API Test
-
-Written in 2013 by Ted Mielczarek <ted@mielczarek.org>
-
-To the extent possible under law, the author(s) have dedicated all copyright and related and neighboring rights to this software to the public domain worldwide. This software is distributed without any warranty.
-
-You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
-
--->
 <script type="text/javascript" src="gamepadtest.js"></script>
 <style>
 
@@ -53,7 +43,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 <body>
 <h2 id="start">Remote table football</h2>
 <div class="videoFeedDiv">
-<iframe src="http://192.168.1.136:8080/?action=stream" class="videoFeed" title="Iframe Example"></iframe>
+<iframe src="placeholder" class="videoFeed" id="videoFeed"  title="Video iframe"></iframe>
 </div>
 <div class="settingsDiv">
 	<div class="settingsTypesDiv">
@@ -98,7 +88,6 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 		<input type="radio" name="resolution" value="640x480" disabled>
 		<label>640x480</label></p>
 		
-
 	</div>
 	
 	
@@ -112,8 +101,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 		
 		<input type="radio" name="framerate" value="120" disabled>
 		<label>120</label></p>
-		
-
+	
 	</div>	
 	
 	<div class="settingsTypesDiv">
@@ -128,22 +116,17 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 
 		<input type="radio" name="mode" value="fixedfps">
 		<label>Sharp</label></p>
-		
 
 	</div>
 	
 	
 	<div class="settingsTypesDiv">
-		<input type="text" id="websocketAddress" name="websocketAddress" value="ws://192.168.1.136:6789/">
-		<input type="button" onclick="restartVideoButton()" value="Restart video" />
-		<input type="button" onclick="stopVideoButton()" value="Stop video" />
+		<!--<input type="text" id="websocketAddress" name="websocketAddress" value="ws://192.168.1.136:6789/">-->
 		<input type="button" onclick="webSocketConnectButton()" value="Open web socket" />
+		<input type="button" onclick="startVideoButton()" value="Start video" />
+		<input type="button" onclick="stopVideoButton()" value="Stop video" />
 	</div>
 
-<!--
-https://limecoda.com/how-to-build-basic-websocket-server-python/
-https://javascript.info/websocket
-<a href="https://github.com/luser/gamepadtest"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
--->
+
 </body>
 </html>

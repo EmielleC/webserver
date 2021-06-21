@@ -1,6 +1,0 @@
-cd webserver
-python3 testServer.py 
-
-http://192.168.1.106:8000/
-
-./mjpg_streamer -o "output_http.so -w ./www" -i "input_raspicam.so -x 1280 -y 720 -fps 60 -ex sports"
