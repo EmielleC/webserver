@@ -35,8 +35,10 @@ function changeControlButton()
 
 function reloadVideoIframe()
 {
+	var rand = Math.floor((Math.random()*1000000)+1);
 	var iframe = document.getElementById('videoFeed');
-	var newSource = "http://" + location.hostname + ":8080/?action=stream";
+	var newSource = "http://" + location.hostname + ":8080/?action=stream?uid="+rand;
+
 	iframe.src = newSource;
 	iframe.contentWindow.location.reload(true);
 	
@@ -94,10 +96,10 @@ function controlInterval()
 		
 		if ( controlMode == 'absolute')
 		{
-			values[0] = controller.axes[0] * (Math.PI / 2);
-			values[1] = controller.axes[1];
-			values[2] = controller.axes[2] * (Math.PI / 2);
-			values[3] = controller.axes[3];
+			values[0] = controller.axes[0];
+			values[1] = controller.axes[1] * (Math.PI / 2);
+			values[2] = controller.axes[2];
+			values[3] = controller.axes[3] * (Math.PI / 2);
 		}
 		
 		if ( controlMode == 'relative')
