@@ -25,7 +25,7 @@ class simpleServo(interface.motorHardware) :
         
         if (servo % 2) == 0:
         #linear motor
-            value = self.map((float(radValue)*-1), -1.0, 1.0, 20, 170)
+            value = self.map((float(radValue)*-1), -1.0, 1.0, 15, 170)
         else:
         #rotary motor
             value = self.map((float(radValue)*-1), (math.pi / -2.0000), (math.pi / 2.0000), 30, 150)
