@@ -96,10 +96,14 @@ function controlInterval()
 		
 		if ( controlMode == 'absolute')
 		{
-			values[0] = controller.axes[0] * 0.1;
-			values[1] = controller.axes[1] * (Math.PI / 2.0000);
-			values[2] = controller.axes[2] * 0.1;
-			values[3] = controller.axes[3] * (Math.PI / 2.0000);
+			//rotary
+			values[0] = controller.axes[0] * (Math.PI / 2.0000);
+			//linear
+			values[1] = controller.axes[1];
+			//rotary
+			values[2] = controller.axes[2] * (Math.PI / 2.0000);
+			//linear
+			values[3] = controller.axes[3];
 		}
 		
 		if ( controlMode == 'relative')
