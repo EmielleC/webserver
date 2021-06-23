@@ -108,18 +108,11 @@ function controlInterval()
 		
 		if ( controlMode == 'relative')
 		{
-			values[0] = values[0] + (controller.axes[0].toFixed(4) * globalSensitivty);
-			if( values[0] > 1) values[0] = 1;
-			if( values[0] < -1) values[0] = -1;
-			values[1] = values[1] + (controller.axes[1].toFixed(4) * globalSensitivty);
-			if( values[1] > 1) values[1] = 1;
-			if( values[1] < -1) values[1] = -1;
-			values[2] = values[2] + (controller.axes[2].toFixed(4) * globalSensitivty);
-			if( values[2] > 1) values[2] = 1;
-			if( values[2] < -1) values[2] = -1;
-			values[3] = values[3] + (controller.axes[3].toFixed(4) * globalSensitivty);
-			if( values[3] > 1) values[3] = 1;
-			if( values[3] < -1) values[3] = -1;
+			for (let i = 0; i < values.length; i++) {
+				values[i] = values[i] + (controller.axes[i].toFixed(4) * globalSensitivty);
+				if( values[i] > (Math.PI / 2.0000)) values[0] = (Math.PI / 2.0000);
+				if( values[i] < (Math.PI / -2.0000)) values[0] = (Math.PI / -2.0000);
+			} 
 		}
 		
 		data[1] = values[3].toFixed(4);

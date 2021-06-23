@@ -22,12 +22,16 @@ class simpleServo(interface.motorHardware) :
     def setup():
         print("setting up")
     def moveMotor(self, servo, radValue ):
+        linearMin = 15
+        linearMax = 170
+        rotaryMin = 30
+        rotaryMax = 150
         
         if (servo % 2) == 0:
         #linear motor
-            value = self.map((float(radValue)*-1), -1.0, 1.0, 15, 170)
+            value = self.map((float(radValue)*-1), -1.0, 1.0, linearMin, linearMax)
         else:
         #rotary motor
-            value = self.map((float(radValue)*-1), (math.pi / -2.0000), (math.pi / 2.0000), 30, 150)
-        print(value)
+            value = self.map((float(radValue)*-1), (math.pi / -2.0000), (math.pi / 2.0000), rotaryMin, rotaryMax)
+        #print(value)
         self.ser.write(('p %d %d\n' % (servo, value)).encode())
